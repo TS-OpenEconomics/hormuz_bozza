@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chiusura dello Stretto di Hormuz — Impatto sull'Italia | OpenEconomics</title>
+<link rel="icon" type="image/png" media="(prefers-color-scheme: light)" href="../ICONE/OE_site_icon_black.png">
+<link rel="icon" type="image/png" media="(prefers-color-scheme: dark)" href="../ICONE/OE_site_icon_white.png">
+<link rel="apple-touch-icon" href="../ICONE/OE_site_icon_black.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+:root {
+  --white:      #FFFFFF;
+  --black:      #000000;
+  --blu-900:    #270065;
+  --blu-800:    #340088;
+  --blu-700:    #4400B3;
+  --blu-500:    #6E1AFF;
+  --blu-400:    #ae81fd;
+  --lime:       #B9FF69;
+  --grey-light: #F5F5F3;
+  --grey-mid:   #DDDDDA;
+  --grey-text:  #555555;
+  --fd: 'Hedvig Letters Serif', Lora, Georgia, serif;
+  --fb: 'Atkinson Hyperlegible Next', Poppins, Calibri, sans-serif;
+  --fm: 'Atkinson Hyperlegible Next', Poppins, Calibri, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--fb); background: var(--white); color: var(--black); font-variant-ligatures: no-common-ligatures; }
+
+/* NAV */
+.nav { position:fixed; top:0; left:0; right:0; z-index:100; background:var(--blu-900); height:56px; padding:0 48px; display:flex; align-items:center; justify-content:space-between; }
+.nav::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--lime); }
+.nav__logo-link { display:flex; align-items:center; text-decoration:none; flex-shrink:0; }
+.nav__logo-img { height:22px; width:auto; display:block; opacity:.9; mix-blend-mode:screen; transition:opacity .2s; }
+.nav__logo-link:hover .nav__logo-img { opacity:1; }
+.nav__wordmark { font-family:var(--fm); font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:var(--grey-mid); font-weight:600; }
+.nav__links { display:flex; gap:24px; list-style:none; }
+.nav__links a { font-weight:700; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--grey-mid); text-decoration:none; transition:color .2s; }
+.nav__links a:hover { color:var(--lime); }
+
+/* CRUMB */
+.crumb { position:fixed; top:56px; left:0; right:0; z-index:90; background:var(--white); border-bottom:1px solid var(--grey-mid); height:36px; display:flex; align-items:center; padding:0 48px; gap:16px; opacity:0; pointer-events:none; transition:opacity .3s; }
+.crumb.visible { opacity:1; pointer-events:auto; }
+.crumb__tag { font-family:var(--fm); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--blu-700); flex-shrink:0; }
+.crumb__sep { width:1px; height:14px; background:var(--grey-mid); flex-shrink:0; }
+.crumb__title { font-family:var(--fd); font-size:14px; color:var(--black); flex:1; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; transition:opacity .12s, transform .12s; }
+.crumb__title.exiting  { opacity:0; transform:translateY(-4px); }
+.crumb__title.entering { opacity:0; transform:translateY(4px); }
+.crumb__num { font-family:var(--fm); font-size:10px; letter-spacing:.1em; color:var(--grey-text); flex-shrink:0; }
+.crumb__prog { position:absolute; bottom:0; left:0; height:2px; background:var(--blu-700); width:0; transition:width .1s linear; }
+
+/* TOC */
+.toc { position:fixed; right:20px; top:50%; transform:translateY(-50%); z-index:99; display:flex; flex-direction:column; gap:10px; }
+.toc__dot { width:8px; height:8px; background:var(--grey-mid); cursor:pointer; transition:background .2s, transform .2s; position:relative; }
+.toc__dot:hover, .toc__dot.active { background:var(--blu-700); transform:scale(1.4); }
+.toc__dot::after { content:attr(data-label); position:absolute; right:16px; top:50%; transform:translateY(-50%); background:var(--blu-900); color:var(--white); font-family:var(--fm); font-size:10px; letter-spacing:.1em; text-transform:uppercase; padding:3px 8px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s; }
+.toc__dot:hover::after { opacity:1; }
+
+/* HERO */
+.hero { margin-top:56px; background:var(--blu-900); min-height:72vh; display:grid; grid-template-columns:1fr 1fr; position:relative; overflow:hidden; }
+.hero__l { position:relative; z-index:2; display:flex; flex-direction:column; justify-content:space-between; padding:56px 64px 42px; }
+.hero__top { display:flex; flex-direction:column; gap:16px; }
+.hero__bottom { display:flex; flex-direction:column; }
+.hero__tag { display:inline-flex; align-items:center; gap:6px; background:var(--lime); color:var(--black); font-family:var(--fm); font-size:11px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; width:fit-content; }
+.hero__tag i { width:12px; height:12px; stroke:var(--black); fill:none; stroke-width:2; display:inline-block; vertical-align:middle; }
+.hero__sector { font-weight:600; font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--white); }
+.hero__title { font-family:var(--fd); font-weight:400; font-size:clamp(34px,4vw,60px); line-height:1.1; color:var(--white); margin:24px 0 36px; }
+.hero__title em { font-style:normal; color:var(--lime); }
+.hero__sub { font-size:18px; color:var(--grey-mid); max-width:600px; margin-bottom:32px; line-height:1.7; }
+.hero__meta { display:flex; gap:28px; flex-wrap:wrap; }
+.hero__mi { display:flex; flex-direction:column; gap:2px; }
+.hero__ml { font-family:var(--fm); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--lime); }
+.hero__mv { font-weight:600; font-size:14px; color:var(--grey-light); }
+.hero__r { position:relative; z-index:2; overflow:hidden; background:radial-gradient(circle at 20% 20%, rgba(110,26,255,.18), transparent 35%), linear-gradient(180deg, #2c0672 0%, var(--blu-900) 100%); display:flex; align-items:center; justify-content:center; }
+.hero__map-shell { width:calc(100% - 56px); height:calc(100% - 56px); margin:28px; border:1px solid rgba(185,255,105,.16); background:rgba(255,255,255,.02); box-shadow:inset 0 0 0 1px rgba(255,255,255,.03); }
+.hero__cap { position:absolute; bottom:0; left:0; right:0; background:var(--blu-900); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; opacity:.9; }
+.hero__cap span { font-family:var(--fm); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--grey-mid); }
+.hero__cap strong { color:var(--lime); }
+.pix { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.pix span { position:absolute; background:var(--blu-700); opacity:.18; }
+
+/* LIME TOP BORDER */
+.lime-stripe { height:4px; background:var(--lime); }
+
+/* SECTIONS */
+.s-dark  { background:var(--blu-900); padding:72px 64px; }
+.s-light { background:var(--white);   padding:72px 64px; }
+.s-grey  { background:var(--grey-light); padding:72px 64px; }
+section { scroll-margin-top: calc(56px + 36px); }
+
+/* SECTION HEADERS */
+.sh { display:flex; align-items:center; gap:16px; margin-bottom:48px; }
+.sh__bar { width:4px; height:40px; background:var(--lime); flex-shrink:0; }
+.sh__tag { font-family:var(--fm); font-size:16px; letter-spacing:.16em; text-transform:uppercase; color:var(--blu-700); margin-bottom:4px; }
+.sh__title { font-family:var(--fd); font-weight:400; font-size:29px; color:var(--black); }
+.s-dark .sh__tag { color:var(--lime); }
+.s-dark .sh__title { color:var(--white); }
+
+/* STITLE */
+.stitle { font-family:var(--fd); font-weight:400; font-size:23px; color:var(--black); margin:48px 0 24px; padding-bottom:12px; border-bottom:2px solid var(--grey-mid); }
+.s-dark .stitle { color:var(--white); border-bottom-color:var(--blu-800); }
+
+/* MACRO CARDS */
+.mgrid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:2px; }
+.mc { background:var(--grey-light); padding:32px 24px; display:flex; flex-direction:column; gap:8px; cursor:default; transition:background .2s; position:relative; overflow:hidden; }
+.mc::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--blu-700); transform:scaleX(0); transform-origin:left; transition:transform .3s; }
+.mc:hover { background:var(--blu-900); }
+.mc:hover::after { transform:scaleX(1); }
+.mc:hover .mci { stroke:var(--lime); }
+.mc:hover .mcl { color:var(--blu-400); }
+.mc:hover .mcv { color:var(--white); }
+.mc:hover .mcu, .mc:hover .mcd { color:var(--grey-mid); }
+.mcw { width:48px; height:48px; margin-bottom:8px; }
+.mci { width:30px; height:30px; stroke:var(--blu-700); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; transition:stroke .2s; display:block; }
+.mc-png-icon { width:48px; height:48px; object-fit:contain; display:block; transition:filter .2s, transform .2s; }
+.mc:hover .mc-png-icon { filter:brightness(1.08); transform:translateY(-1px); }
+.mcl { font-family:var(--fm); font-size:13px; letter-spacing:.13em; text-transform:uppercase; color:var(--black); transition:color .2s; font-weight:bold; min-height:2.8em; display:flex; align-items:flex-start; }
+.mcv { font-family:var(--fd); font-weight:400; font-size:41px; color:var(--blu-700); line-height:1; transition:color .2s; }
+.mcu { font-family:var(--fm); font-size:13px; color:var(--grey-text); transition:color .2s; }
+.mcd { font-size:13px; color:var(--grey-text); line-height:1.5; margin-top:4px; transition:color .2s; }
+
+/* INFO CARDS */
+.ic { background:var(--white); border:1px solid var(--grey-mid); padding:32px 28px; display:flex; flex-direction:column; gap:12px; transition:border-color .2s; }
+.ic:hover { border-color:var(--blu-700); }
+.ic__icon { width:40px; height:40px; display:flex; align-items:center; justify-content:center; }
+.ic__icon i { width:24px; height:24px; stroke:var(--blu-700); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.ic__lbl { font-family:var(--fm); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--grey-text); }
+.ic__val { font-family:var(--fd); font-size:36px; color:var(--blu-700); line-height:1; }
+.ic__title { font-weight:600; font-size:15px; color:var(--black); line-height:1.3; }
+.ic__desc { font-size:14px; color:var(--grey-text); line-height:1.7; }
+
+/* LAYOUTS */
+.c2   { display:grid; grid-template-columns:1fr 1.3fr; gap:64px; align-items:start; }
+.c2eq { display:grid; grid-template-columns:1fr 1fr;   gap:56px; align-items:stretch; }
+.c3   { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; }
+.ch2  { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+.ch1  { display:grid; grid-template-columns:1fr; }
+
+/* TEXT BLOCKS */
+.tx h3 { font-family:var(--fd); font-weight:400; font-size:25px; color:var(--black); margin-bottom:16px; line-height:1.3; }
+.tx p  { font-size:15px; color:var(--grey-text); line-height:1.8; margin-bottom:14px; }
+.tx p strong { color:var(--blu-700); font-weight:600; }
+.tx--d h3 { color:var(--white); }
+.tx--d p  { color:var(--grey-mid); }
+.tx--d p strong { color:var(--lime); }
+
+/* HIGHLIGHT BOX */
+.hlb { background:var(--lime); padding:24px; display:flex; gap:14px; margin-top:24px; }
+.hlb__bar { width:4px; background:var(--blu-900); flex-shrink:0; }
+.hlb__tx  { font-size:15px; color:var(--blu-900); line-height:1.7; }
+.hlb__tx strong { font-weight:600; }
+
+/* NUMBERED LIST */
+.nlist { display:flex; flex-direction:column; gap:2px; }
+.ni { background:var(--grey-light); padding:28px; display:flex; gap:24px; align-items:flex-start; transition:background .2s; }
+.ni:hover { background:var(--grey-mid); }
+.ni__n { font-family:var(--fd); font-size:32px; color:var(--blu-700); line-height:1; flex-shrink:0; min-width:48px; }
+.ni h4 { font-weight:600; font-size:15px; margin-bottom:6px; }
+.ni p  { font-size:14px; color:var(--grey-text); line-height:1.7; }
+
+/* STEPS */
+.steps { display:flex; flex-direction:column; gap:2px; }
+.step { background:var(--blu-800); padding:28px 32px; display:flex; gap:24px; align-items:flex-start; transition:background .2s; }
+.step:hover { background:var(--blu-700); }
+.step__n { font-family:var(--fd); font-size:32px; color:var(--lime); line-height:1; flex-shrink:0; min-width:48px; }
+.step h4 { font-weight:600; font-size:15px; color:var(--white); margin-bottom:6px; }
+.step p  { font-size:14px; color:var(--grey-mid); line-height:1.7; }
+
+/* FLOURISH PLACEHOLDER */
+.cb { border:1px solid var(--grey-mid); padding:28px 28px 20px; display:flex; flex-direction:column; gap:8px; transition:border-color .2s; margin-bottom:32px; }
+.cb:hover { border-color:var(--blu-700); }
+.cb__num   { font-family:var(--fm); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--blu-700); }
+.cb__title { font-family:var(--fd); font-size:20px; color:var(--black); font-weight:400; }
+.cb__desc  { font-size:13px; color:var(--grey-text); line-height:1.6; margin-bottom:8px; }
+.fl { border:1.5px dashed var(--grey-mid); min-height:300px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:32px; transition:border-color .2s; background:var(--grey-light); }
+.fl:hover { border-color:var(--blu-700); }
+.fl-icon { width:36px; height:36px; stroke:var(--grey-mid); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; display:block; }
+.fl__tag   { font-family:var(--fm); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--grey-text); margin-top:8px; }
+.fl__title { font-weight:600; font-size:15px; color:var(--grey-text); }
+.fl__desc  { font-size:13px; color:var(--grey-text); max-width:260px; line-height:1.5; text-align:center; }
+
+/* KEY RISK BAND (custom for this report) */
+.risk-band { background:var(--blu-900); border-left:4px solid var(--lime); padding:32px 40px; display:flex; gap:20px; align-items:flex-start; margin:40px 0; }
+.risk-band__icon { flex-shrink:0; margin-top:2px; }
+.risk-band__icon i { width:22px; height:22px; stroke:var(--lime); fill:none; stroke-width:1.5; }
+.risk-band__label { font-family:var(--fm); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--lime); margin-bottom:6px; }
+.risk-band__text { font-size:15px; color:var(--grey-mid); line-height:1.75; }
+.risk-band__text strong { color:var(--white); }
+
+/* SPACERS */
+.sp32 { height:32px; }
+.sp48 { height:48px; }
+
+/* SCENARIO TABLE */
+.stab { width:100%; border-collapse:collapse; margin-top:16px; }
+.stab th { font-family:var(--fm); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--white); background:var(--blu-800); padding:14px 18px; text-align:left; border-bottom:2px solid var(--lime); }
+.stab td { font-size:14px; color:var(--grey-text); padding:14px 18px; border-bottom:1px solid var(--grey-mid); vertical-align:top; line-height:1.6; }
+.stab tr:hover td { background:var(--grey-light); }
+.stab .val { font-family:var(--fd); font-size:20px; color:var(--blu-700); font-weight:400; }
+.stab .val-neg { color:#cc2200; }
+
+/* STAT ROW */
+.stat-row { display:flex; gap:2px; margin-bottom:48px; }
+.stat-item { background:var(--grey-light); padding:24px 28px; flex:1; border-top:3px solid var(--grey-mid); transition:border-color .2s; }
+.stat-item:hover { border-color:var(--blu-700); }
+.stat-item__lbl { font-family:var(--fm); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--grey-text); margin-bottom:6px; }
+.stat-item__val { font-family:var(--fd); font-size:30px; color:var(--blu-700); line-height:1; font-weight:400; }
+.stat-item__sub { font-size:12px; color:var(--grey-text); margin-top:4px; }
+
+/* FOOTER */
+.footer { background:var(--black); font-family:var(--fb); }
+.footer__top { display:grid; grid-template-columns:1fr 1fr; gap:64px; padding:56px 64px 48px; border-bottom:1px solid #2a2a2a; }
+.footer__logo-link { display:inline-block; margin-bottom:20px; }
+.footer__logo-img { height:20px; width:auto; display:block; opacity:.9; mix-blend-mode:screen; transition:opacity .2s; }
+.footer__logo-link:hover .footer__logo-img { opacity:1; }
+.footer__wordmark { font-family:var(--fm); font-size:14px; letter-spacing:.18em; text-transform:uppercase; color:#888; font-weight:600; margin-bottom:20px; display:block; }
+.footer__tagline { font-size:14px; color:#888; line-height:1.7; max-width:340px; margin-bottom:20px; }
+.footer__site-link { font-family:var(--fm); font-size:12px; letter-spacing:.08em; color:#888; text-decoration:underline; text-underline-offset:3px; transition:color .2s; }
+.footer__site-link:hover { color:var(--white); }
+.footer__right { padding-top:10px; }
+.footer__condizioni-label { font-family:var(--fm); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#666; margin-bottom:16px; }
+.footer__condizioni-text { font-size:13px; color:#777; line-height:1.75; }
+.footer__bottom { display:flex; align-items:center; justify-content:space-between; padding:20px 64px; }
+.footer__bottom-left { font-family:var(--fm); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#555; text-decoration:none; }
+.footer__bottom-right { font-family:var(--fm); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#555; }
+
+/* DISCLAIMER BAND */
+.disclaimer { background:var(--grey-light); border-top:3px solid var(--grey-mid); padding:20px 64px; font-family:var(--fm); font-size:11px; color:var(--grey-text); letter-spacing:.04em; line-height:1.7; }
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  .hero { grid-template-columns:1fr; min-height:auto; }
+  .hero__r { height:320px; }
+  .hero__l { padding:48px 32px; }
+  .hero__map-shell { width:calc(100% - 32px); height:calc(100% - 32px); margin:16px; }
+  .c2, .c2eq, .ch2, .c3 { grid-template-columns:1fr; }
+  .s-dark, .s-light, .s-grey { padding:48px 32px; }
+  .nav { padding:0 24px; }
+  .nav__links { display:none; }
+  .toc { display:none; }
+  .footer__top { grid-template-columns:1fr; padding:40px 32px 32px; gap:40px; }
+  .footer__bottom { padding:16px 32px; flex-direction:column; gap:8px; text-align:center; }
+  .stat-row { flex-direction:column; }
+  .disclaimer { padding:20px 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="https://www.openeconomics.eu" target="_blank" rel="noopener" class="nav__logo-link">
+    <img src="../ICONE/OpenEconomics-LOGO-WHITE.png" alt="OpenEconomics" class="nav__logo-img">
+  </a>
+  <ul class="nav__links">
+    <li><a href="#numeri">Numeri chiave</a></li>
+    <li><a href="#takeaways">Evidenze</a></li>
+    <li><a href="#scenari">Scenari</a></li>
+    <li><a href="#impatti">Impatti</a></li>
+    <li><a href="#metodologia">Metodologia</a></li>
+  </ul>
+</nav>
+
+<!-- CRUMB -->
+<div class="crumb" id="crumb">
+  <span class="crumb__tag" id="crumbTag">Analisi di rischio</span>
+  <div class="crumb__sep"></div>
+  <span class="crumb__title" id="crumbTitle">Impatto macro sull'economia italiana</span>
+  <span class="crumb__num" id="crumbNum">1 / 4</span>
+  <div class="crumb__prog" id="crumbFill"></div>
+</div>
+
+<!-- TOC DOTS -->
+<nav class="toc">
+  <div class="toc__dot active" data-label="Intro"       data-s="hero"        onclick="navTo('hero')"></div>
+  <div class="toc__dot"       data-label="Numeri"       data-s="numeri"      onclick="navTo('numeri')"></div>
+  <div class="toc__dot"       data-label="Evidenze"     data-s="takeaways"   onclick="navTo('takeaways')"></div>
+  <div class="toc__dot"       data-label="Scenari"      data-s="scenari"     onclick="navTo('scenari')"></div>
+  <div class="toc__dot"       data-label="Impatti"      data-s="impatti"     onclick="navTo('impatti')"></div>
+  <div class="toc__dot"       data-label="Metodologia"  data-s="metodologia" onclick="navTo('metodologia')"></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="pix">
+    <span style="width:120px;height:120px;top:10%;left:55%;"></span>
+    <span style="width:60px;height:60px;top:60%;left:70%;"></span>
+    <span style="width:80px;height:200px;top:20%;left:80%;"></span>
+    <span style="width:40px;height:40px;top:75%;left:62%;"></span>
+  </div>
+  <div class="hero__l">
+    <div class="hero__top">
+      <div class="hero__tag">
+        <i data-lucide="alert-triangle"></i>
+        Analisi di Rischio Geopolitico
+      </div>
+      <div class="hero__sector">Geopolitica · Economia · Italia · 2025</div>
+    </div>
+    <h1 class="hero__title">Stretto di Hormuz<br>&amp; <em>Impatto sull'Italia</em></h1>
+    <div class="hero__bottom">
+      <p class="hero__sub">Stima degli effetti macroeconomici di una chiusura prolungata dello Stretto di Hormuz sulle principali variabili dell'economia italiana: PIL, inflazione, occupazione, import energetico e bilancia commerciale.</p>
+      <div class="hero__meta">
+        <div class="hero__mi">
+          <span class="hero__ml">Ambito</span>
+          <span class="hero__mv">Nazionale — Italia</span>
+        </div>
+        <div class="hero__mi">
+          <span class="hero__ml">Anno di riferimento</span>
+          <span class="hero__mv">2025</span>
+        </div>
+        <div class="hero__mi">
+          <span class="hero__ml">Tipo di analisi</span>
+          <span class="hero__mv">Impatto economico</span>
+        </div>
+        <div class="hero__mi">
+          <span class="hero__ml">Nota</span>
+          <span class="hero__mv">Stime simulate a scopo illustrativo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero__r">
+    <!-- Hero visual: SVG map placeholder -->
+    <div class="hero__map-shell">
+    <svg viewBox="0 0 560 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:.7;padding:28px;">
+      <!-- Simplified geopolitical routes illustration -->
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#B9FF69"/>
+        </marker>
+      </defs>
+      <!-- Ocean background -->
+      <rect width="560" height="420" fill="#270065" rx="0"/>
+      <!-- Gulf region simplified -->
+      <ellipse cx="380" cy="200" rx="60" ry="30" fill="#340088" opacity=".7"/>
+      <text x="380" y="204" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#ae81fd" letter-spacing="1">GOLFO PERSICO</text>
+      <!-- Hormuz dot -->
+      <circle cx="355" cy="218" r="6" fill="#B9FF69" opacity=".9"/>
+      <text x="345" y="235" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#B9FF69">Hormuz</text>
+      <!-- Route lines -->
+      <path d="M355,212 Q280,160 180,130 Q110,110 60,90" stroke="#B9FF69" stroke-width="1.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arr)" opacity=".8"/>
+      <!-- Italy dot -->
+      <circle cx="55" cy="85" r="5" fill="#FFFFFF" opacity=".8"/>
+      <text x="55" y="75" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#DDDDDA">ITALIA</text>
+      <!-- Suez route -->
+      <path d="M355,212 Q330,240 300,260 Q260,285 220,290 Q150,295 80,280" stroke="#4400B3" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity=".6"/>
+      <text x="200" y="308" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#ae81fd" letter-spacing="1">VIA SUEZ</text>
+      <!-- Arabian sea label -->
+      <text x="300" y="175" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#4400B3" letter-spacing="2">MAR ARABICO</text>
+      <!-- Med label -->
+      <text x="100" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#4400B3" letter-spacing="2">MEDITERRANEO</text>
+      <!-- Blockade symbol -->
+      <line x1="348" y1="211" x2="365" y2="227" stroke="#ff4444" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="365" y1="211" x2="348" y2="227" stroke="#ff4444" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Legend -->
+      <line x1="30" y1="360" x2="70" y2="360" stroke="#B9FF69" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="76" y="364" font-family="Georgia,serif" font-size="8" fill="#DDDDDA">Rotta petrolio verso Italia</text>
+      <line x1="30" y1="376" x2="70" y2="376" stroke="#4400B3" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="76" y="380" font-family="Georgia,serif" font-size="8" fill="#DDDDDA">Via Suez (rotta alternativa)</text>
+      <circle cx="44" cy="392" r="5" fill="#B9FF69"/>
+      <text x="76" y="396" font-family="Georgia,serif" font-size="8" fill="#B9FF69">Stretto di Hormuz (bloccato)</text>
+    </svg>
+    </div>
+    <div class="hero__cap">
+      <span>Rotte energetiche strategiche · Medio Oriente — Mediterraneo</span>
+      <strong>2025</strong>
+    </div>
+  </div>
+</section>
+
+<div class="lime-stripe"></div>
+
+<!-- MACRO NUMBERS -->
+<section class="s-light" id="numeri">
+  <div class="sh">
+    <div class="sh__bar"></div>
+    <div>
+      <div class="sh__tag">Risultati principali</div>
+      <div class="sh__title">L'impatto stimato sull'economia italiana</div>
+    </div>
+  </div>
+  <div class="mgrid">
+    <div class="mc">
+      <div class="mcw"><img src="../ICONE/PIL.png" alt="PIL" class="mc-png-icon"></div>
+      <div class="mcl">Contrazione PIL</div>
+      <div class="mcv">−1,8%</div>
+      <div class="mcu">punti percentuali (scenario base, 6 mesi)</div>
+      <div class="mcd">Stima della perdita di prodotto interno lordo nell'ipotesi di chiusura dello stretto per sei mesi.</div>
+    </div>
+    <div class="mc">
+      <div class="mcw"><i data-lucide="flame" class="mci"></i></div>
+      <div class="mcl">Rincaro energia</div>
+      <div class="mcv">+62%</div>
+      <div class="mcu">aumento prezzo greggio (scenario avverso)</div>
+      <div class="mcd">Impennata del prezzo del petrolio Brent stimata in caso di blocco prolungato dei transiti.</div>
+    </div>
+    <div class="mc">
+      <div class="mcw"><img src="../ICONE/Redditi.png" alt="Inflazione" class="mc-png-icon"></div>
+      <div class="mcl">Inflazione aggiuntiva</div>
+      <div class="mcv">+3,4</div>
+      <div class="mcu">punti percentuali (scenario avverso, 12 mesi)</div>
+      <div class="mcd">Impulso inflazionistico aggiuntivo generato dallo shock energetico e dalla disruption delle catene del valore.</div>
+    </div>
+    <div class="mc">
+      <div class="mcw"><img src="../ICONE/Occupazione.png" alt="Occupazione" class="mc-png-icon"></div>
+      <div class="mcl">Occupazione a rischio</div>
+      <div class="mcv">280k</div>
+      <div class="mcu">unità di lavoro equivalenti (scenario avverso)</div>
+      <div class="mcd">Stima dei posti di lavoro equivalenti esposti al rischio di riduzione nelle filiere energivore e manifatturiere.</div>
+    </div>
+    <div class="mc">
+      <div class="mcw"><img src="../ICONE/Produzione.png" alt="Import energetico" class="mc-png-icon"></div>
+      <div class="mcl">Import energetico esposto</div>
+      <div class="mcv">27%</div>
+      <div class="mcu">quota dell'import petrolifero via Hormuz</div>
+      <div class="mcd">Percentuale delle forniture petrolifere italiane che transitano, direttamente o indirettamente, per lo Stretto di Hormuz.</div>
+    </div>
+    <div class="mc">
+      <div class="mcw"><img src="../ICONE/png_spesa.png" alt="Bilancia commerciale" class="mc-png-icon"></div>
+      <div class="mcl">Impatto bilancia commerciale</div>
+      <div class="mcv">−18 mld</div>
+      <div class="mcu">euro (scenario base, anno su anno)</div>
+      <div class="mcd">Deterioramento stimato della bilancia commerciale italiana per effetto del rincaro delle importazioni energetiche.</div>
+    </div>
+  </div>
+
+  <div class="risk-band" style="margin-top:48px;">
+    <div class="risk-band__icon"><i data-lucide="alert-circle"></i></div>
+    <div>
+      <div class="risk-band__label">Nota metodologica</div>
+      <div class="risk-band__text">Le stime presentate sono elaborate a scopo illustrativo e si basano su modelli input-output e proiezioni di scenario. <strong>I valori non costituiscono previsioni ufficiali</strong> e devono essere interpretati come ordini di grandezza plausibili in un contesto di alta incertezza geopolitica. Si distinguono due scenari: <strong>scenario base</strong> (chiusura parziale, 6 mesi) e <strong>scenario avverso</strong> (chiusura totale, 12+ mesi).</div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY TAKEAWAYS (istituzionale) -->
+<section class="s-grey" id="takeaways">
+  <div class="sh">
+    <div class="sh__bar"></div>
+    <div>
+      <div class="sh__tag">Evidenze analitiche</div>
+      <div class="sh__title">Principali risultati dell'analisi</div>
+    </div>
+  </div>
+  <div class="c3">
+    <div class="ic">
+      <div class="ic__icon"><i data-lucide="zap"></i></div>
+      <div class="ic__lbl">Dipendenza energetica</div>
+      <div class="ic__title">L'Italia è tra le economie europee più vulnerabili allo shock petrolifero</div>
+      <div class="ic__desc">La quota di energia primaria coperta da fonti fossili importate supera il 75% del totale. La diversificazione delle rotte di approvvigionamento rimane parziale, rendendo il sistema produttivo italiano particolarmente sensibile alle interruzioni nei flussi del Golfo.</div>
+    </div>
+    <div class="ic">
+      <div class="ic__icon"><i data-lucide="factory"></i></div>
+      <div class="ic__lbl">Filiere industriali</div>
+      <div class="ic__title">La manifattura energivora subisce l'impatto più diretto e immediato</div>
+      <div class="ic__desc">Chimica, ceramica, vetro, acciaio e agroalimentare sono i comparti più esposti. L'analisi stima una contrazione della produzione industriale tra il 3,2% e l'8,7% nei settori energivori, con effetti a cascata sulle filiere di subfornitura.</div>
+    </div>
+    <div class="ic">
+      <div class="ic__icon"><i data-lucide="trending-up"></i></div>
+      <div class="ic__lbl">Inflazione da offerta</div>
+      <div class="ic__title">Lo shock si trasmette ai prezzi al consumo con un ritardo stimato di 2–4 mesi</div>
+      <div class="ic__desc">Il meccanismo di trasmissione passa attraverso i costi energetici delle imprese, le tariffe dei trasporti e i prezzi all'import. L'effetto sull'inflazione al consumo è stimato tra +1,8 e +3,4 punti percentuali cumulati nei 12 mesi successivi all'evento.</div>
+    </div>
+    <div class="ic">
+      <div class="ic__icon"><i data-lucide="anchor"></i></div>
+      <div class="ic__lbl">Rotte alternative</div>
+      <div class="ic__title">Le rotte sostitutive sono praticabili ma comportano costi e tempi aggiuntivi significativi</div>
+      <div class="ic__desc">La circumnavigazione dell'Africa (Capo di Buona Speranza) aggiunge 7–12 giorni di navigazione e comporta un aumento dei noli stimato tra il 35% e il 70%. Le rotte via Suez non sono alternative dirette per il greggio proveniente dal Golfo.</div>
+    </div>
+    <div class="ic">
+      <div class="ic__icon"><i data-lucide="shield"></i></div>
+      <div class="ic__lbl">Riserve strategiche</div>
+      <div class="ic__title">Le scorte strategiche italiane garantiscono una copertura di circa 90 giorni</div>
+      <div class="ic__desc">L'Italia partecipa al meccanismo IEA di scorte petrolifere obbligatorie. Le riserve stimate consentono di tamponare lo shock nelle prime fasi, ma non eliminano l'impatto strutturale in caso di blocco prolungato oltre i tre mesi.</div>
+    </div>
+    <div class="ic">
+      <div class="ic__icon"><i data-lucide="globe"></i></div>
+      <div class="ic__lbl">Risposta di politica economica</div>
+      <div class="ic__title">L'efficacia delle misure di mitigazione dipende dalla velocità di attivazione</div>
+      <div class="ic__desc">Interventi come rilascio delle scorte IEA, diversificazione rapida dei fornitori (Algeria, Norvegia, GNL statunitense) e misure di contenimento della domanda possono ridurre l'impatto netto del 20–35%, a condizione di essere attivati nelle prime settimane dell'evento.</div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="s-dark" id="metodologia">
+  <div class="sh">
+    <div class="sh__bar"></div>
+    <div>
+      <div class="sh__tag">Nota metodologica</div>
+      <div class="sh__title">Approccio analitico e fonti</div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step__n">01</div>
+      <div>
+        <h4>Definizione degli scenari di rischio</h4>
+        <p>Sono stati costruiti due scenari di chiusura dello stretto: uno scenario base (interruzione parziale dei transiti per 3–6 mesi, con riduzione del 40% dei flussi) e uno scenario avverso (blocco totale per 12+ mesi). I parametri di partenza derivano da analisi storiche di eventi analoghi (crisi Suez 1956, guerra Iran-Iraq 1984–1988) e da modelli di rischio geopolitico aggiornati a fonti aperte.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step__n">02</div>
+      <div>
+        <h4>Modello input-output e moltiplicatori settoriali</h4>
+        <p>L'impatto sul PIL e sull'occupazione è stimato tramite un modello input-output della struttura produttiva italiana (tavole ISTAT 2022, integrate con dati Eurostat). I moltiplicatori settoriali sono calibrati sull'intensità energetica di ciascun comparto. Il modello cattura gli effetti diretti (settori esposti all'energia), indiretti (filiere di fornitura) e indotti (consumi delle famiglie).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step__n">03</div>
+      <div>
+        <h4>Stima del pass-through energetico sull'inflazione</h4>
+        <p>La trasmissione dello shock energetico ai prezzi al consumo è modellata attraverso un'analisi di pass-through basata su serie storiche BCE e Banca d'Italia (2000–2023). Il ritardo di trasmissione stimato (2–4 mesi) è coerente con le evidenze empiriche degli shock petroliferi precedenti. L'effetto sull'IPCA è scomposto in componente diretta (carburanti, energia domestica) e componente indiretta (beni e servizi energivori).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step__n">04</div>
+      <div>
+        <h4>Analisi dell'esposizione del sistema import/export</h4>
+        <p>La quota di import petrolifero esposta allo stretto è stimata incrociando i dati di provenienza geografica delle forniture (IEA Oil Market Report, MISE) con le rotte marittime standard (Lloyd's List Intelligence). Non tutto il greggio mediorientale transita per Hormuz: la stima tiene conto delle rotte pipeline alternative (Arabia Saudita–Mar Rosso via Yanbu, Emirati–Fujairah).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step__n">05</div>
+      <div>
+        <h4>Fonti principali e limiti dell'analisi</h4>
+        <p>Fonti: IEA, EIA, Banca d'Italia, ISTAT, MISE, Eurostat, BCE, Lloyd's List Intelligence, BP Statistical Review. Il modello presenta i limiti propri di ogni analisi di scenario: le stime di impatto dipendono in modo sensibile dalle ipotesi sulla durata dell'evento e sulla risposta dei mercati finanziari e delle politiche economiche. I risultati devono essere interpretati come ordini di grandezza indicativi, non come previsioni.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARI -->
+<section class="s-light" id="scenari">
+  <div class="sh">
+    <div class="sh__bar"></div>
+    <div>
+      <div class="sh__tag">Analisi di scenario</div>
+      <div class="sh__title">Confronto tra scenari di chiusura</div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-item__lbl">Quota transiti mondiali</div>
+      <div class="stat-item__val">20%</div>
+      <div class="stat-item__sub">del commercio petrolifero globale via Hormuz</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-item__lbl">Dipendenza import IT</div>
+      <div class="stat-item__val">27%</div>
+      <div class="stat-item__sub">dell'import petrolifero italiano esposto</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-item__lbl">Copertura riserve IEA</div>
+      <div class="stat-item__val">~90 gg</div>
+      <div class="stat-item__sub">autonomia stimata delle scorte strategiche</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-item__lbl">Ritardo rotte alternative</div>
+      <div class="stat-item__val">+10 gg</div>
+      <div class="stat-item__sub">aggiunta media via Capo di Buona Speranza</div>
+    </div>
+  </div>
+
+  <div class="c2">
+    <div class="tx">
+      <h3>Scenario Base — Chiusura parziale (3–6 mesi)</h3>
+      <p>In questo scenario si ipotizza una riduzione del 40% dei transiti attraverso lo Stretto, equivalente a circa 8 milioni di barili/giorno sottratti al mercato, per un periodo compreso tra tre e sei mesi. Il prezzo del Brent aumenta nell'intervallo <strong>+25% / +40%</strong>.</p>
+      <p>L'economia italiana assorbe lo shock in modo graduale grazie alle riserve strategiche IEA e alla diversificazione parziale degli approvvigionamenti. La <strong>contrazione del PIL è stimata tra −0,9% e −1,8%</strong> su base annua. L'inflazione aggiuntiva si attesta tra +1,2 e +2,1 punti percentuali.</p>
+      <div class="hlb">
+        <div class="hlb__bar"></div>
+        <div class="hlb__tx"><strong>Settori più colpiti:</strong> chimica di base, trasporti stradali, ceramica e materiali da costruzione, pesca industriale. Le PMI energivore del Nord-Est risultano particolarmente vulnerabili per la loro dipendenza dai costi energetici variabili.</div>
+      </div>
+    </div>
+    <div>
+      <table class="stab">
+        <thead>
+          <tr>
+            <th>Variabile</th>
+            <th>Scenario Base</th>
+            <th>Scenario Avverso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Durata evento</td>
+            <td>3–6 mesi</td>
+            <td>12+ mesi</td>
+          </tr>
+          <tr>
+            <td>Riduzione transiti</td>
+            <td>−40%</td>
+            <td>−100%</td>
+          </tr>
+          <tr>
+            <td>Prezzo Brent (var. %)</td>
+            <td class="val">+25/+40%</td>
+            <td class="val val-neg">+45/+65%</td>
+          </tr>
+          <tr>
+            <td>Impatto PIL annuo</td>
+            <td class="val val-neg">−0,9/−1,8%</td>
+            <td class="val val-neg">−2,4/−3,8%</td>
+          </tr>
+          <tr>
+            <td>Inflazione aggiuntiva (IPCA)</td>
+            <td class="val val-neg">+1,2/+2,1 pp</td>
+            <td class="val val-neg">+2,6/+3,4 pp</td>
+          </tr>
+          <tr>
+            <td>Occupazione a rischio (ULA)</td>
+            <td class="val val-neg">80.000–140.000</td>
+            <td class="val val-neg">180.000–280.000</td>
+          </tr>
+          <tr>
+            <td>Bilancia commerciale</td>
+            <td class="val val-neg">−8/−18 mld €</td>
+            <td class="val val-neg">−22/−38 mld €</td>
+          </tr>
+          <tr>
+            <td>Produzione industriale</td>
+            <td class="val val-neg">−2,1/−4,0%</td>
+            <td class="val val-neg">−5,5/−9,2%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sp48"></div>
+
+  <div class="ch2">
+    <div class="cb">
+      <div class="cb__num">Grafico 01</div>
+      <div class="cb__title">Impatto sul PIL italiano per scenario e durata</div>
+      <div class="cb__desc">Variazione percentuale del PIL italiano nei due scenari di chiusura, per trimestre. Fonte: elaborazione OpenEconomics su modello input-output ISTAT 2022.</div>
+      <div class="fl">
+        <i data-lucide="trending-down" class="fl-icon"></i>
+        <div class="fl__tag">Flourish embed</div>
+        <div class="fl__title">Grafico a linee — PIL trimestrale per scenario</div>
+        <div class="fl__desc">Scenari base e avverso a confronto, variazione % trimestrale</div>
+      </div>
+    </div>
+    <div class="cb">
+      <div class="cb__num">Grafico 02</div>
+      <div class="cb__title">Dinamica del prezzo del petrolio Brent</div>
+      <div class="cb__desc">Simulazione del percorso del prezzo del greggio Brent nei 18 mesi successivi all'evento, per i due scenari. Fonte: elaborazione OpenEconomics su dati IEA e EIA.</div>
+      <div class="fl">
+        <i data-lucide="trending-up" class="fl-icon"></i>
+        <div class="fl__tag">Flourish embed</div>
+        <div class="fl__title">Grafico a linee — Prezzo Brent $/barile</div>
+        <div class="fl__desc">Traiettoria mensile scenari base e avverso vs baseline</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPATTI DETTAGLIO -->
+<section class="s-light" id="impatti">
+  <div class="sh">
+    <div class="sh__bar"></div>
+    <div>
+      <div class="sh__tag">Analisi degli impatti</div>
+      <div class="sh__title">Impatto macroeconomico in dettaglio</div>
+    </div>
+  </div>
+
+  <div class="c2" style="margin-bottom:64px;">
+    <div class="tx">
+      <h3>Trasmissione dello shock energetico all'economia reale</h3>
+      <p>La chiusura dello Stretto si trasmette all'economia italiana attraverso tre canali principali. Il primo è il <strong>canale dei costi di produzione</strong>: il rincaro energetico aumenta i costi variabili delle imprese manifatturiere, comprimendo i margini e spingendo alla riduzione dei volumi produttivi.</p>
+      <p>Il secondo è il <strong>canale della domanda interna</strong>: l'inflazione energetica riduce il potere d'acquisto delle famiglie, contraendo i consumi privati. La stima indica una perdita di potere d'acquisto reale tra −1,4% e −2,9% su base annua nello scenario avverso.</p>
+      <p>Il terzo è il <strong>canale della competitività esterna</strong>: i maggiori costi di produzione e i rincari nei trasporti marittimi compromettono la competitività delle esportazioni italiane, in particolare nei segmenti manifatturieri a basso valore aggiunto.</p>
+    </div>
+    <div class="cb">
+      <div class="cb__num">Grafico 03</div>
+      <div class="cb__title">Decomposizione dell'impatto sul PIL per canale</div>
+      <div class="cb__desc">Contributo di ciascun canale di trasmissione alla variazione complessiva del PIL. Scenario base, 12 mesi. Fonte: elaborazione OpenEconomics.</div>
+      <div class="fl">
+        <i data-lucide="bar-chart-2" class="fl-icon"></i>
+        <div class="fl__tag">Flourish embed</div>
+        <div class="fl__title">Grafico a barre — Decomposizione impatto PIL</div>
+        <div class="fl__desc">Canali: costi produzione, domanda interna, competitività export</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stitle">Impatto sull'occupazione e sul mercato del lavoro</div>
+  <div class="c2" style="margin-bottom:64px;">
+    <div class="cb">
+      <div class="cb__num">Grafico 04</div>
+      <div class="cb__title">Unità di lavoro equivalenti a rischio per comparto</div>
+      <div class="cb__desc">Distribuzione delle ULA esposte al rischio nei principali comparti manifatturieri ed energivori. Scenario avverso. Fonte: elaborazione OpenEconomics su ISTAT.</div>
+      <div class="fl">
+        <i data-lucide="bar-chart-2" class="fl-icon"></i>
+        <div class="fl__tag">Flourish embed</div>
+        <div class="fl__title">Grafico a barre orizzontali — ULA a rischio per comparto</div>
+        <div class="fl__desc">Chimica, ceramica, acciaio, trasporti, agroalimentare, altro</div>
+      </div>
+    </div>
+    <div class="tx">
+      <h3>I settori a maggiore esposizione occupazionale</h3>
+      <p>L'analisi identifica i comparti con il più elevato coefficiente di intensità energetica come i principali vettori di rischio occupazionale. La <strong>chimica di base e la petrolchimica</strong> (circa 65.000 addetti diretti) mostrano la vulnerabilità più elevata, con un coefficiente di esposizione all'energia superiore al 18% del valore aggiunto.</p>
+      <p>Il <strong>settore della ceramica e dei materiali da costruzione</strong>, concentrato nei distretti di Sassuolo, Civita Castellana e Faenza, registra un'esposizione analoga. Il <strong>comparto siderurgico</strong> (acciaio, alluminio, rame) soffre invece sia per i costi energetici diretti che per la contrazione della domanda da costruzioni e manifattura.</p>
+      <p>Il sistema distributivo (logistica, autotrasporto) trasferisce rapidamente il rincaro dei carburanti sui prezzi finali, amplificando l'effetto inflazionistico su tutta la filiera.</p>
+    </div>
+  </div>
+
+  <div class="stitle">Bilancia commerciale e import energetico</div>
+  <div class="c2">
+    <div class="tx">
+      <h3>Il deterioramento della bilancia commerciale</h3>
+      <p>Il rincaro delle importazioni energetiche è la componente principale del deterioramento della bilancia commerciale italiana. L'Italia importa circa 70 milioni di tonnellate di petrolio grezzo l'anno: un aumento del 40% del prezzo si traduce in un aggravio della bolletta petrolifera di circa <strong>14–18 miliardi di euro annui</strong> (scenario base).</p>
+      <p>A questo si aggiunge l'effetto sui prodotti trasportati via mare, i cui noli aumentano significativamente per effetto del rerouting. Le filiere di importazione di materie prime (metalli, fertilizzanti, prodotti chimici) subiscono costi di approvvigionamento aggiuntivi stimati in 3–5 miliardi di euro (scenario base).</p>
+      <p>Sul versante export, la perdita di competitività manifatturiera e il rallentamento della domanda dei partner commerciali (in particolare Germania e Francia, anch'esse colpite) riducono i ricavi da esportazione di beni manufatti.</p>
+    </div>
+    <div class="cb">
+      <div class="cb__num">Grafico 05</div>
+      <div class="cb__title">Evoluzione della bilancia commerciale italiana</div>
+      <div class="cb__desc">Saldo commerciale mensile stimato nei due scenari vs baseline. Valori in miliardi di euro. Fonte: elaborazione OpenEconomics su dati ISTAT e IEA.</div>
+      <div class="fl">
+        <i data-lucide="trending-down" class="fl-icon"></i>
+        <div class="fl__tag">Flourish embed</div>
+        <div class="fl__title">Grafico a linee — Bilancia commerciale mld €</div>
+        <div class="fl__desc">Scenari base / avverso / baseline, variazione mensile</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <strong>Avvertenza:</strong> Le analisi e le stime contenute in questo documento sono elaborate a scopo puramente illustrativo e non costituiscono previsioni ufficiali né consulenza finanziaria, energetica o di altro tipo. I dati utilizzati provengono da fonti pubbliche autorevoli e i modelli applicati seguono prassi metodologiche standard nel settore. OpenEconomics non assume responsabilità per decisioni adottate sulla base di queste informazioni.
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+  <!-- TOP: logo + tagline / condizioni d'uso -->
+  <div class="footer__top">
+    <div class="footer__left">
+      <a href="https://www.openeconomics.eu" target="_blank" rel="noopener" class="footer__logo-link">
+        <img src="../ICONE/OpenEconomics-LOGO-WHITE.png" alt="OpenEconomics" class="footer__logo-img">
+      </a>
+      <p class="footer__tagline">Soluzioni integrate per l'analisi d'impatto socioeconomico e la gestione di finanziamenti pubblici, sostenendo imprese e PA nella mitigazione dei rischi finanziari, sociali e climatici.</p>
+    </div>
+    <div class="footer__right">
+      <div class="footer__condizioni-label">Condizioni d'uso</div>
+      <p class="footer__condizioni-text">Il presente documento e tutte le informazioni in esso contenute possono essere divulgati, a condizione che la distribuzione avvenga citando OpenEconomics come fonte. Le informazioni sono fornite a scopo puramente informativo e non implicano alcuna garanzia o impegno da parte di OpenEconomics. Le analisi economiche contenute nel documento sono state elaborate sulla base di fonti pubbliche autorevoli e fornitori di dati specialistici, con l'obiettivo di offrire una valutazione professionale, oggettiva e prudenziale in linea con le prassi metodologiche di comparto. Al documento e ai suoi contenuti si applicano il copyright e le norme in materia di protezione dei dati personali.</p>
+    </div>
+  </div>
+
+  <!-- BOTTOM: url / copyright -->
+  <div class="footer__bottom">
+    <a href="https://www.openeconomics.eu" target="_blank" rel="noopener" class="footer__bottom-left">www.openeconomics.eu</a>
+    <div class="footer__bottom-right">Copyright &copy; OpenEconomics SRL 2026</div>
+  </div>
+</footer>
+
+<script>
+// --- NAV SMOOTH SCROLL ---
+function navTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// --- TOC DOT SYNC ---
+function setActiveDot(id) {
+  const d = document.querySelector(`.toc__dot[data-s="${id}"]`);
+  document.querySelectorAll('.toc__dot').forEach(x => x.classList.remove('active'));
+  if (d) d.classList.add('active');
+}
+
+// --- CRUMB SECTIONS ---
+const SECTIONS = [
+  { id: 'numeri',      tag: 'Risultati principali',   title: 'L\'impatto stimato sull\'economia italiana',       num: '1 / 4' },
+  { id: 'takeaways',   tag: 'Evidenze analitiche',     title: 'Principali risultati dell\'analisi',               num: '2 / 4' },
+  { id: 'scenari',     tag: 'Analisi di scenario',     title: 'Confronto tra scenari di chiusura',                num: '3 / 4' },
+  { id: 'impatti',     tag: 'Analisi degli impatti',   title: 'Impatto macroeconomico in dettaglio',              num: '4 / 4' },
+];
+
+const crumb      = document.getElementById('crumb');
+const crumbTag   = document.getElementById('crumbTag');
+const crumbTitle = document.getElementById('crumbTitle');
+const crumbNum   = document.getElementById('crumbNum');
+const crumbFill  = document.getElementById('crumbFill');
+
+let currentId = null;
+let titleAnim = null;
+const NAV_H   = 56;
+const CRUMB_H = 36;
+
+function showCrumb(show) { crumb.classList.toggle('visible', show); }
+
+function setCrumbContent(section) {
+  if (section.id === currentId) return;
+  currentId = section.id;
+  crumbTitle.classList.add('exiting');
+  clearTimeout(titleAnim);
+  titleAnim = setTimeout(() => {
+    crumbTag.textContent   = section.tag;
+    crumbTitle.textContent = section.title;
+    crumbNum.textContent   = section.num;
+    crumbTitle.classList.remove('exiting');
+    crumbTitle.classList.add('entering');
+    void crumbTitle.offsetWidth;
+    crumbTitle.classList.remove('entering');
+  }, 120);
+}
+
+function updateProgress() {
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = scrollable > 0 ? Math.max(0, Math.min(100, (window.scrollY / scrollable) * 100)) : 0;
+  crumbFill.style.width = pct + '%';
+}
+
+const sectionEls = SECTIONS.map(s => document.getElementById(s.id)).filter(Boolean);
+const obsOpts = { threshold: 0, rootMargin: `-${NAV_H + CRUMB_H}px 0px -60% 0px` };
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const sec = SECTIONS.find(s => s.id === entry.target.id);
+      if (sec) { setCrumbContent(sec); setActiveDot(sec.id); }
+    }
+  });
+}, obsOpts);
+sectionEls.forEach(el => obs.observe(el));
+
+// TOC also watches hero
+const heroObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) setActiveDot('hero'); });
+}, { threshold: 0.25 });
+const heroEl = document.getElementById('hero');
+if (heroEl) heroObs.observe(heroEl);
+
+// Also watch metodologia for TOC
+const metEl = document.getElementById('metodologia');
+if (metEl) {
+  const metObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) setActiveDot('metodologia'); });
+  }, { threshold: 0.2 });
+  metObs.observe(metEl);
+}
+
+let rafId = null;
+window.addEventListener('scroll', () => {
+  if (rafId) return;
+  rafId = requestAnimationFrame(() => {
+    rafId = null;
+    const firstSection = document.getElementById(SECTIONS[0].id);
+    const threshold = firstSection ? firstSection.offsetTop + 80 : 200;
+    showCrumb(window.scrollY > threshold);
+    updateProgress();
+  });
+}, { passive: true });
+
+// --- LUCIDE ---
+if (typeof lucide !== 'undefined') lucide.createIcons();
+</script>
+</body>
+</html>
